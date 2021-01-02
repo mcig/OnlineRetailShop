@@ -1,4 +1,4 @@
-const dbConfig = require("./dbConfig");
+const dbConfig = require("../../dbConfig");
 
 module.exports = (tableName, values) => {
   switch (tableName) {

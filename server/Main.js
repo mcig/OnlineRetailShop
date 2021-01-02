@@ -3,7 +3,8 @@ const path = require("path");
 const dbConfig = require("./db/dbConfig");
 const connection = require("./db/connection");
 const query = require("./db/query");
-const relatedQuery = require("./db/relatedQuery");
+const relatedInsertQuery = require("./db/Queries/Insert/relatedQuery");
+const relatedSelectQuery = require("./db/Queries/Select/relatedQuery");
 const app = express();
 const port = 8000;
 
@@ -12,6 +13,29 @@ app.use(express.static(path.join(__dirname, "build")));
 
 // middleware
 app.use(express.json());
+
+//Get Calls
+app.get("/api/get/*", async (req, res) => {
+  const tableName = req.originalUrl.split("/").pop();
+
+  const conn = await connection(dbConfig).catch((e) => {
+    console.log(e);
+  });
+
+  if (!relatedSelectQuery(tableName)) {
+    res.json({
+      status: "400",
+      message: "WRONG TABLE NAME",
+    });
+    return;
+  }
+
+  //perform query
+  const queryResult = await query(conn, relatedSelectQuery(tableName)).catch(
+    console.log
+  );
+  res.json({ status: "200", response: queryResult });
+});
 
 //Get Calls
 app.get("/*", (req, res) => {
@@ -32,10 +56,10 @@ app.post("/api/insert/*", async (req, res) => {
   });
 
   //perform query
-  await query(conn, relatedQuery(tableName, values)).catch(console.log);
+  await query(conn, relatedInsertQuery(tableName, values)).catch(console.log);
   //perform dependent query
   if (dependentTableName)
-    await query(conn, relatedQuery(dependentTableName, values)).catch(
+    await query(conn, relatedInsertQuery(dependentTableName, values)).catch(
       console.log
     );
 
