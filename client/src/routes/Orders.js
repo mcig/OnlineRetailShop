@@ -1,6 +1,7 @@
 import { React, useState, useEffect } from "react";
 import { Grid } from "@material-ui/core";
 import Loading from "../components/MaterialUiBased/Loading";
+import BasicTable from "../components/MaterialUiBased/BasicTable";
 
 function Orders() {
   const [orders, setOrders] = useState(null);
@@ -24,7 +25,22 @@ function Orders() {
   return (
     <Grid style={{ marginTop: "20px" }} spacing={3} container>
       {loading && <Loading />}
-      {orders && orders.map((order) => <h3>{order.idOrder}</h3>)}
+      {orders && (
+        <Grid container justify="center">
+          <Grid>
+            <BasicTable
+              headers={[
+                "Order id",
+                "Order Date",
+                "Order Status",
+                "Customer",
+                "Product",
+              ]}
+              rows={orders}
+            />
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }

@@ -32,7 +32,6 @@ app.get("/api/get/*", async (req, res) => {
   const queryResult = await query(conn, relatedSelectQuery(tableName)).catch(
     console.log
   );
-  console.log(queryResult);
   res.json({ status: "200", response: queryResult });
 });
 
