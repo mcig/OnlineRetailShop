@@ -2,8 +2,9 @@ import { React, useEffect, useState } from "react";
 import { Grid } from "@material-ui/core";
 import Loading from "../components/MaterialUiBased/Loading";
 function Users() {
-  const [customers, setCustomers] = useState(false);
+  const [customers, setCustomers] = useState(null);
   const [loading, setLoading] = useState(false);
+
   function fetchCustomers() {
     setLoading(true);
     fetch("/api/get/customer")
@@ -23,7 +24,7 @@ function Users() {
   return (
     <Grid style={{ marginTop: "20px" }} spacing={3} container>
       {loading && <Loading />}
-      {customers}
+      {customers && customers.map((customer) => <h3>{customer.idCustomer}</h3>)}
     </Grid>
   );
 }

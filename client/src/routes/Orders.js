@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import Loading from "../components/MaterialUiBased/Loading";
 
 function Orders() {
-  const [orders, setOrders] = useState(false);
+  const [orders, setOrders] = useState(null);
   const [loading, setLoading] = useState(false);
   function fetchOrders() {
     setLoading(true);
@@ -23,8 +23,8 @@ function Orders() {
 
   return (
     <Grid style={{ marginTop: "20px" }} spacing={3} container>
-      {orders}
       {loading && <Loading />}
+      {orders && orders.map((order) => <h3>{order.idOrder}</h3>)}
     </Grid>
   );
 }

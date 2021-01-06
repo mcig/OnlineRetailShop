@@ -3,7 +3,7 @@ import { Grid } from "@material-ui/core";
 import Product from "../components/Products/ProductCard";
 import Loading from "../components/MaterialUiBased/Loading";
 function Home() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState(null);
   const [loading, setLoading] = useState(false);
 
   function fetchProducts() {
@@ -24,11 +24,12 @@ function Home() {
   return (
     <Grid style={{ marginTop: "20px" }} spacing={3} container>
       {loading && <Loading />}
-      {products.map((product, idx) => (
-        <Grid key={idx} item>
-          <Product data={product} />
-        </Grid>
-      ))}
+      {products &&
+        products.map((product, idx) => (
+          <Grid key={idx} item>
+            <Product data={product} />
+          </Grid>
+        ))}
     </Grid>
   );
 }

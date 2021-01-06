@@ -17,7 +17,6 @@ app.use(express.json());
 //Get Calls
 app.get("/api/get/*", async (req, res) => {
   const tableName = req.originalUrl.split("/").pop();
-
   const conn = await connection(dbConfig).catch((e) => {
     console.log(e);
   });
@@ -29,11 +28,11 @@ app.get("/api/get/*", async (req, res) => {
     });
     return;
   }
-
   //perform query
   const queryResult = await query(conn, relatedSelectQuery(tableName)).catch(
     console.log
   );
+  console.log(queryResult);
   res.json({ status: "200", response: queryResult });
 });
 
