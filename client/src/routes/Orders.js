@@ -23,7 +23,7 @@ function Orders() {
   }, []);
 
   return (
-    <Grid style={{ marginTop: "20px" }} spacing={3} container>
+    <Grid style={{ marginTop: "20px" }} container>
       {loading && <Loading />}
       {orders && (
         <Grid container justify="center">
