@@ -1,14 +1,18 @@
 const dbConfig = require("../../dbConfig");
 
-module.exports = (tableName) => {
+module.exports = (tableName,id=null) => {
   switch (tableName) {
-    case "customer":    
-    case "customertel":
     case "shipmentinfo":
-    case "product":    
+    case "customer":    
+    case "product":
+      return `SELECT * from ${tableName}`;
+    
+    case "customertel":
     case "customeradress":    
     case "paymentinfo":
-      return `SELECT * from ${tableName}`;
+      return id ? `SELECT * from ${tableName} where Customer_idCustomer = ${id}`
+        :`SELECT * from ${tableName}`;
+
     case "order":
       return `SELECT * from ${dbConfig.database}.${tableName}`;
 

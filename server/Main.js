@@ -16,22 +16,25 @@ app.use(express.json());
 
 //Get Calls
 app.get("/api/get/*", async (req, res) => {
-  const tableName = req.originalUrl.split("/").pop();
+  const id = req.query.id;
+  let tableName = req.params[0];
   const conn = await connection(dbConfig).catch((e) => {
     console.log(e);
   });
-
-  if (!relatedSelectQuery(tableName)) {
+  if (!relatedSelectQuery(tableName, id)) {
     res.json({
       status: "400",
       message: "WRONG TABLE NAME",
     });
     return;
   }
+  console.log("Performed Query: " + relatedSelectQuery(tableName, id));
   //perform query
-  const queryResult = await query(conn, relatedSelectQuery(tableName)).catch(
-    console.log
-  );
+  const queryResult = await query(
+    conn,
+    relatedSelectQuery(tableName, id)
+  ).catch(console.log);
+  //  console.log("Got Result: ", queryResult);
   res.json({ status: "200", response: queryResult });
 });
 

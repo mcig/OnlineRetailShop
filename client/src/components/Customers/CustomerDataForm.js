@@ -11,7 +11,7 @@ function CustomerDataForm({ FixedData, id }) {
     fetch(`/api/get/${tableName}?id=${id}`)
       .then((res) => {
         res.json().then((json) => {
-          setSubData(json.response);
+          setSubData(json.response[0]);
         });
       })
       .catch((e) => console.log(e));
@@ -20,22 +20,21 @@ function CustomerDataForm({ FixedData, id }) {
 
   return (
     <div>
-      <Grid container direction="column" alignItems="center">
-        {FixedData &&
-          FixedData.map((data, idx) => (
-            <Grid item>
-              <Typography
-                color={idx !== 2 ? "primary" : "secondary"}
-                variant="h5"
-              >
-                <Grid container alignItems="center">
-                  {idx === 2 ? <Favorite color="secondary" /> : null}
-                  {data}
-                </Grid>
-              </Typography>
+      {FixedData && (
+        <Grid container direction="column" alignItems="center">
+          <Grid item>
+            <Typography color="primary" variant="h5">
+              {FixedData[0]} {FixedData[1]}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Grid container alignItems="center">
+              <Favorite color="secondary" />
+              {FixedData[2]}
             </Grid>
-          ))}
-      </Grid>
+          </Grid>
+        </Grid>
+      )}
       <Grid
         style={{ marginTop: "10px" }}
         container
@@ -75,15 +74,27 @@ function CustomerDataForm({ FixedData, id }) {
         container
         direction="column"
         spacing={1}
-        alignItems="center"
       >
         {loading && <Loading />}
         {subData &&
-          subData.map((data, idx) => (
-            <Grid item>
-              <Typography variant="h5">{data}</Typography>
-            </Grid>
-          ))}
+          Object.keys(subData).map((key, idx) => {
+            //dont print last elem
+            return idx === Object.keys(subData).length - 1 ? null : (
+              <Grid item>
+                <Typography
+                  display="inline"
+                  color={idx % 2 === 0 ? "primary" : "secondary"}
+                  variant="h5"
+                >
+                  {key} :
+                </Typography>
+                <Typography display="inline" variant="h5">
+                  {" "}
+                  {subData[key]}
+                </Typography>
+              </Grid>
+            );
+          })}
       </Grid>
     </div>
   );
