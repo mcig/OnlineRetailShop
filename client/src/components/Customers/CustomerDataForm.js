@@ -1,6 +1,6 @@
 import { React, useState } from "react";
 import { Grid, Button, Typography } from "@material-ui/core";
-import { Favorite } from "@material-ui/icons";
+import { Favorite, Close } from "@material-ui/icons";
 import Loading from "../MaterialUiBased/Loading";
 function CustomerDataForm({ FixedData, id }) {
   const [subData, setSubData] = useState(null);
@@ -66,6 +66,15 @@ function CustomerDataForm({ FixedData, id }) {
             color="secondary"
           >
             Payment Info
+          </Button>
+        </Grid>
+        <Grid item>
+          <Button
+            onClick={() => setSubData(null)}
+            variant="contained"
+            color="primary"
+          >
+            <Close />
           </Button>
         </Grid>
       </Grid>
