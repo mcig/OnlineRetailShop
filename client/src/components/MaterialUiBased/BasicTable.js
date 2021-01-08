@@ -32,15 +32,17 @@ export default function BasicTable({ rows, headers }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow>
+          {rows.map((row, idx) => (
+            <TableRow key={idx}>
               {Object.keys(row).map((key, idx) => {
                 return idx === 0 ? (
-                  <TableCell component="th" scope="row">
+                  <TableCell key={idx} component="th" scope="row">
                     {row[key]}
                   </TableCell>
                 ) : (
-                  <TableCell align="right">{row[key]}</TableCell>
+                  <TableCell key={idx} align="right">
+                    {row[key]}
+                  </TableCell>
                 );
               })}
             </TableRow>

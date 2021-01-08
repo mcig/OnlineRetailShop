@@ -5,6 +5,7 @@ import BasicTable from "../components/MaterialUiBased/BasicTable";
 
 function Orders() {
   const [orders, setOrders] = useState(null);
+  const [shipments, setShipments] = useState(null);
   const [loading, setLoading] = useState(false);
   function fetchOrders() {
     setLoading(true);
@@ -17,17 +18,29 @@ function Orders() {
       .catch((e) => console.log(e));
     setLoading(false);
   }
+  function fetchShipments() {
+    setLoading(true);
+    fetch("/api/get/shipmentinfo")
+      .then((res) => {
+        res.json().then((json) => {
+          setShipments(json.response);
+        });
+      })
+      .catch((e) => console.log(e));
+    setLoading(false);
+  }
 
   useEffect(() => {
     fetchOrders();
+    fetchShipments();
   }, []);
 
   return (
     <Grid style={{ marginTop: "20px" }} container>
       {loading && <Loading />}
-      {orders && (
-        <Grid container justify="center">
-          <Grid>
+      <Grid container justify="center">
+        {orders && (
+          <Grid sm={6}>
             <BasicTable
               headers={[
                 "Order id",
@@ -39,8 +52,22 @@ function Orders() {
               rows={orders}
             />
           </Grid>
-        </Grid>
-      )}
+        )}
+        {shipments && (
+          <Grid sm={6}>
+            <BasicTable
+              headers={[
+                "Shipment id",
+                "Shipment Status",
+                "ETA",
+                "VolWeight",
+                "Order Id",
+              ]}
+              rows={shipments}
+            />
+          </Grid>
+        )}
+      </Grid>
     </Grid>
   );
 }
