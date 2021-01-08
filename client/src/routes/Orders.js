@@ -38,9 +38,9 @@ function Orders() {
   return (
     <Grid style={{ marginTop: "20px" }} container>
       {loading && <Loading />}
-      <Grid container justify="center">
+      <Grid container spacing={1} justify="center">
         {orders && (
-          <Grid sm={6}>
+          <Grid item sm={5}>
             <BasicTable
               headers={[
                 "Order id",
@@ -54,7 +54,7 @@ function Orders() {
           </Grid>
         )}
         {shipments && (
-          <Grid sm={6}>
+          <Grid item sm={5}>
             <BasicTable
               headers={[
                 "Shipment id",
