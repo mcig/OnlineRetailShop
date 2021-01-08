@@ -16,7 +16,7 @@ import { red } from "@material-ui/core/colors";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import Delete from "@material-ui/icons/DeleteForever";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +50,10 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewCard({ data }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const { Name, Price, ImgUrl, Description, Likes } = data;
+  const { id, Name, Price, ImgUrl, Description, Likes } = data;
+  const handleDelete = () => {
+    fetch("/api/delete/product?id=" + id);
+  };
   const handleExpandClick = () => {
     setExpanded(!expanded);
   };
@@ -58,8 +61,8 @@ export default function ReviewCard({ data }) {
     <Card className={classes.root}>
       <CardHeader
         action={
-          <IconButton aria-label="settings">
-            <MoreVertIcon />
+          <IconButton onClick={handleDelete} aria-label="settings">
+            <Delete />
           </IconButton>
         }
         title={Name}
