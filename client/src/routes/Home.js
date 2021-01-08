@@ -27,7 +27,7 @@ function Home() {
       {products &&
         products.map((product, idx) => (
           <Grid key={idx} item>
-            <Product data={product} />
+            <Product setter={setProducts} data={product} />
           </Grid>
         ))}
     </Grid>

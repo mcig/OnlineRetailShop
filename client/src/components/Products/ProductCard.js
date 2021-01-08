@@ -47,12 +47,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ReviewCard({ data }) {
+export default function ReviewCard({ setter, data }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
   const { idProduct, Name, Price, ImgUrl, Description, Likes } = data;
   const handleDelete = () => {
-    fetch("/api/delete/product?id=" + idProduct);
+    fetch("/api/delete/product?id=" + idProduct)
+      .then((res) => {
+        res.json().then((json) => {
+          setter(json.response);
+        });
+      })
+      .catch((e) => console.log(e));
   };
   const handleExpandClick = () => {
     setExpanded(!expanded);

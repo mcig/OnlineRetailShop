@@ -28,19 +28,32 @@ app.get("/api/get/*", async (req, res) => {
     });
     return;
   }
-  console.log("Performed Query: " + relatedSelectQuery(tableName, id));
+  console.log("Performed Select: " + relatedSelectQuery(tableName, id));
   //perform query
   const queryResult = await query(
     conn,
     relatedSelectQuery(tableName, id)
   ).catch(console.log);
-  //  console.log("Got Result: ", queryResult);
   res.json({ status: "200", response: queryResult });
 });
 
 app.get("/api/delete/product", async (req, res) => {
   const id = req.query.id;
-  console.log(id);
+  const conn = await connection(dbConfig).catch((e) => {
+    console.log(e);
+  });
+
+  console.log(
+    "Performed Delete: " + "DELETE FROM product where idProduct=" + id + ";"
+  );
+  await query(conn, "DELETE FROM product where idProduct=" + id + ";").catch(
+    console.log
+  );
+
+  const queryResult = await query(conn, relatedSelectQuery("product")).catch(
+    console.log
+  );
+  res.json({ status: "200", response: queryResult });
 });
 
 //Get Calls
@@ -68,7 +81,11 @@ app.post("/api/insert/*", async (req, res) => {
     await query(conn, relatedInsertQuery(dependentTableName, values)).catch(
       console.log
     );
-
+  console.log("Performed Insert: " + relatedInsertQuery(tableName, values));
+  if (dependentTableName)
+    console.log(
+      "Performed Insert: " + relatedInsertQuery(dependentTableName, values)
+    );
   res.json({ response: "200 OK" });
 });
 //Server listen
