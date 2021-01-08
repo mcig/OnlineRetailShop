@@ -38,6 +38,11 @@ app.get("/api/get/*", async (req, res) => {
   res.json({ status: "200", response: queryResult });
 });
 
+app.get("/api/delete/product", async (req, res) => {
+  const id = req.query.id;
+  console.log(id);
+});
+
 //Get Calls
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "build", "index.html"));

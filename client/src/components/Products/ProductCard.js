@@ -50,9 +50,9 @@ const useStyles = makeStyles((theme) => ({
 export default function ReviewCard({ data }) {
   const classes = useStyles();
   const [expanded, setExpanded] = React.useState(false);
-  const { id, Name, Price, ImgUrl, Description, Likes } = data;
+  const { idProduct, Name, Price, ImgUrl, Description, Likes } = data;
   const handleDelete = () => {
-    fetch("/api/delete/product?id=" + id);
+    fetch("/api/delete/product?id=" + idProduct);
   };
   const handleExpandClick = () => {
     setExpanded(!expanded);
